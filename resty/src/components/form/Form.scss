@@ -1,0 +1,41 @@
+.form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.renderedData {
+height: 100vh;
+  background-color: rgb(233, 233, 233);
+  min-height: 300px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+  border: solid lightgray;
+}
+
+.form label input{
+  width: 300px;
+    padding: 5px;
+}
+.form label button{
+  margin-left: 15px;
+    padding: 5px;
+}
+.radio{
+  margin-top: 10px
+}
+.radio label {
+ 
+  background-color: #E1E0E0;
+  padding: 5px 15px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 20px 5px;    
+  input[type="radio"]{
+      display: none;
+  }
+}
