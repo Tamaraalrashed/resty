@@ -7,42 +7,59 @@ class Form extends React.Component{
 constructor(props){
     super (props);
     this.state={
-        url:'http://localhost:3000/',
+        url:'',
         selectedOption:'get',
     };
  
 }
 
-urlHandler=(e)=>{
+submitHandler= async e=>{
     e.preventDefault();
+    let raw=await fetch(this.state.url)
+    let headers ={};
+        raw.headers.forEach((val,idx)=>{
+          headers[idx]=val;
+        return headers;
+        })
+   
+    const results =await raw.json();
+    console.log('data2',  results)
+   this.props.submitHandler(headers,results);
+    
+    
+
+}
+
+
+
+
+urlHandler=(e)=>{
+
+    e.preventDefault();
+
     let url=e.target.value ;
-    // console.log('url',url);
+ 
     this.setState({ url });
     };
 
-
-    handleClick=(e)=>{
-        e.preventDefault();
-
-};
-
 onValueChange=(e)=>{
     e.preventDefault();
-    let x=e.target.value
-    // console.log('value',x);
+ 
+    let selectedOption=e.target.value
+
 this.setState({
-    selectedOption: x
+    selectedOption: selectedOption
 })
 }
 
  render() {
      return(
 <div>
-     <form  className="form"action="">
+     <form onSubmit={this.submitHandler} className="form"action="">
              <label >
               
                    <input type="text" value={this.state.url} onChange={this.urlHandler}/>
-                   <button onClick={this.handleClick} >GO!</button>
+                   <button >GO!</button>
              </label>
            
              <div className="radio"  >
@@ -75,14 +92,6 @@ this.setState({
              
          </form>
          
-     
-     <div className="renderedData">
-  
-         <p>
-         {this.state.selectedOption}  {this.state.url}
-         </p>
-        
-     </div>
 </div>
    )     
  }
