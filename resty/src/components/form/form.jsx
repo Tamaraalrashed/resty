@@ -1,6 +1,7 @@
 
 import React from 'react';
 import './Form.scss'
+const superagent=require('superagent');
 
 class Form extends React.Component{
 
@@ -9,29 +10,50 @@ constructor(props){
     this.state={
         url:'',
         selectedOption:'get',
+        body:{}
     };
  
 }
 
 submitHandler= async e=>{
     e.preventDefault();
-    let raw=await fetch(this.state.url)
-    let headers ={};
-        raw.headers.forEach((val,idx)=>{
-          headers[idx]=val;
-        return headers;
-        })
+
+   // let raw=await fetch(this.state.url,)
+//    setTimeout(()=>{
+    let results= await superagent[this.state.selectedOption](this.state.url).send(this.state.body)
+    .set('Content-Type', 'application/json') 
+     let headers=results.headers
+      this.props.submitHandler(headers,results.body);  
+        // console.log('data2',  results)
+        const storageData=JSON.parse(localStorage.getItem('queryParameters'))
+        const {url,selectedOption,body}= this.state;
+        const queryParams= {url,selectedOption,body}
+        if (!storageData){
+
+         localStorage.setItem('queryParameters', JSON.stringify([queryParams]))
+        }
+        else {
+          const found = storageData.map((data) => {
+           
+         return((data.selectedOption === selectedOption) &&
+         (data.url === url)&&(data.body === body))
+        
+    
+            });
+            if (!found){
+                storageData.push(queryParams)
+                localStorage.setItem('queryParameters', JSON.stringify(storageData))
+            }
    
-    const results =await raw.json();
-    console.log('data2',  results)
-   this.props.submitHandler(headers,results);
-    
-    
+        }
+       
+            
+//    },1000)
+  
 
+   
+   
 }
-
-
-
 
 urlHandler=(e)=>{
 
@@ -44,12 +66,18 @@ urlHandler=(e)=>{
 
 onValueChange=(e)=>{
     e.preventDefault();
- 
-    let selectedOption=e.target.value
-
+let selectedOption=e.target.value.toLowerCase();
+console.log('selected', selectedOption)
 this.setState({
     selectedOption: selectedOption
 })
+}
+
+sendBody=(e)=>{
+    e.preventDefault();
+    let body=e.target.value
+    console.log('value of body', body);
+    this.setState({ body });
 }
 
  render() {
@@ -87,6 +115,8 @@ this.setState({
               onChange={this.onValueChange}
               />DELETE  
               </label>
+              
+            <textarea name="textArea" id="" cols="100" rows="4" onChange={this.sendBody}></textarea>
              </div>
            
              
