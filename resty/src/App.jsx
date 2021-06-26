@@ -6,7 +6,9 @@ import Form from "./components/form/form";
 import Footer from "./components/footer/footer";
 import Results from "./components/results/results";
 import History from "./components/history/history";
-
+import Help from "./components/help/help";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 class App extends React.Component{
   constructor(props){
@@ -26,20 +28,25 @@ class App extends React.Component{
 
   render(){
 return (
+  <Router>
+
   <React.Fragment>
      <div className="App">
     <Header/>
+    <Switch>
+    <Route exact path="/">
+                      
     <Form submitHandler={this.formHandler}/>
-    <div id='container'>
-          <ul>
-            <History />
-          </ul>
-    {/* <History /> */}
-    </div>
     <Results headers={this.state.headers}  results={this.state.results}/>
+    </Route>  
+    <Route exact path="/history" component={History} />
+   <Route  exact path="/help" component={Help} />              
+   </Switch>
+ 
     <Footer/>
     </div>
   </React.Fragment>
+   </Router>
    
   )
 }
