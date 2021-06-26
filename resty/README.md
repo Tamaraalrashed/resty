@@ -5,12 +5,7 @@ It's an API testing tool that can be run in any browser, allowing a user to easi
 ### *Author: Tamara Alrashed* 
 <br>
 
-### *Run the App*
-
-  *`npm start`* <br>
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+ ### [Netlify](https://jolly-wiles-577a2e.netlify.app/)
 
 
 ### *UML*
