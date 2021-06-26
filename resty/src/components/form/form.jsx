@@ -26,31 +26,39 @@ submitHandler= async e=>{
       this.props.submitHandler(headers,results.body);  
         // console.log('data2',  results)
         const storageData=JSON.parse(localStorage.getItem('queryParameters'))
+        
         const {url,selectedOption,body}= this.state;
         const queryParams= {url,selectedOption,body}
+
         if (!storageData){
 
          localStorage.setItem('queryParameters', JSON.stringify([queryParams]))
         }
         else {
-          const found = storageData.map((data) => {
-           
-         return((data.selectedOption === selectedOption) &&
-         (data.url === url)&&(data.body === body))
+
+          const  found = storageData.find((data) => {
+            console.log('selected',data.url );
+            console.log('selected us',url );
+            return ( (data.selectedOption === selectedOption &&
+        data.url === url && data.body === body))
+                
+        })
+          
+        //  return((data.selectedOption === selectedOption) &&
+        //  (data.url === url)&&(data.body === body))
         
-    
-            });
+        //     });
+
+        console.log('found',found );
             if (!found){
                 storageData.push(queryParams)
+                console.log('storageData',storageData );  
                 localStorage.setItem('queryParameters', JSON.stringify(storageData))
             }
-   
-        }
-       
-            
-//    },1000)
-  
 
+
+  
+        }
    
    
 }
