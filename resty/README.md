@@ -5,7 +5,7 @@ It's an API testing tool that can be run in any browser, allowing a user to easi
 ### *Author: Tamara Alrashed* 
 <br>
 
- ### [Netlify](https://jolly-wiles-577a2e.netlify.app/)
+ ### [Netlify](https://tamara-resty.netlify.app/)
 
 
 ### *UML*
