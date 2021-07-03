@@ -1,5 +1,7 @@
 import React from "react";
 import "./Form.scss";
+import If from "../if/if";
+import Loader from "../loader/loader";
 const superagent = require("superagent");
 
 class Form extends React.Component {
@@ -9,6 +11,7 @@ class Form extends React.Component {
       url: "",
       selectedOption: "get",
       body: {},
+      flg:false
     };
   }
 
@@ -21,26 +24,31 @@ class Form extends React.Component {
       .send(this.state.body)
       .set("Content-Type", "application/json");
     let headers = results.headers;
-    this.props.submitHandler(headers, results.body);
     // console.log('data2',  results)
     const storageData = JSON.parse(localStorage.getItem("queryParameters"));
     const { url, selectedOption, body } = this.state;
+    console.log('thisstate', this.state);
     const queryParams = { url, selectedOption, body };
     if (!storageData) {
       localStorage.setItem("queryParameters", JSON.stringify([queryParams]));
     } else {
-      const found = storageData.map((data) => {
+      
+      const found = storageData.find((data) => {
+        // console.log('data.selectedOption:', data.selectedOption,'data.url:' , data.url);
         return (
+         
           data.selectedOption === selectedOption &&
           data.url === url &&
           data.body === body
-        );
-      });
-      if (!found) {
-        storageData.push(queryParams);
-        localStorage.setItem("queryParameters", JSON.stringify(storageData));
+          );
+        });
+        if (!found) {
+          console.log('not found!');
+          storageData.push(queryParams);
+          localStorage.setItem("queryParameters", JSON.stringify(storageData));
+        }
       }
-    }
+      this.props.submitHandler(headers, results.body,storageData);
 
     //    },1000)
   };
@@ -56,7 +64,7 @@ class Form extends React.Component {
   onValueChange = (e) => {
     e.preventDefault();
     let selectedOption = e.target.value.toLowerCase();
-    console.log("selected", selectedOption);
+    // console.log("selected", selectedOption);
     this.setState({
       selectedOption: selectedOption,
     });
@@ -65,8 +73,12 @@ class Form extends React.Component {
   sendBody = (e) => {
     e.preventDefault();
     let body = e.target.value;
-    console.log("value of body", body);
+    // console.log("value of body", body);
     this.setState({ body });
+  };
+
+  toggle = () => {
+    this.setState({ flag: !this.state.flag });
   };
 
   render() {
@@ -81,7 +93,9 @@ class Form extends React.Component {
             />
             <button>GO!</button>
           </label>
-
+          <If condition={this.state.flag}>
+            <Loader></Loader>
+          </If>
           <div className="radio">
             <label>
               <input

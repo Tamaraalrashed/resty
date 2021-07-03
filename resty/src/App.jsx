@@ -16,13 +16,15 @@ class App extends React.Component{
     this.state={
       count:0,
       results:[],
-      headers:[]
+      headers:[],
+      flag:false,
+      storageData:[]
     }
   }
 
-  formHandler= (headers, results) => {
+  formHandler= (headers, results,storageData) => {
    
-    this.setState({headers,results})
+    this.setState({headers,results,storageData})
   }
 
 
@@ -37,7 +39,8 @@ return (
     <Route exact path="/">
                       
     <Form submitHandler={this.formHandler}/>
-    <Results headers={this.state.headers}  results={this.state.results}/>
+    <Results headers={this.state.headers}  results={this.state.results} flag={this.state.flag?true:false}/>
+    <History/>
     </Route>  
     <Route exact path="/history" component={History} />
    <Route  exact path="/help" component={Help} />              

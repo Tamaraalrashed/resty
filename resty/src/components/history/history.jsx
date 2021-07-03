@@ -5,11 +5,12 @@ export default function History(props) {
     let params = localStorage.getItem('queryParameters') ? JSON.parse(localStorage.getItem('queryParameters')) : [];
     return (
       <>
+      <h2>History</h2>
         {params.map((query) => {
           return (
             <li className='method' key={query.selectedOption + query.url}>
-              <span>{query.selectedOption}</span>
-              <span>{query.url}</span>
+              <span>{query.selectedOption} </span> 
+              <span> {' '}{query.url}</span>
             </li>
           );
         })}
